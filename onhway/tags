@@ -1,0 +1,13 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+__ONHWAY_LOG_H__	log.h	2;"	d
+logAppender	log.h	/^class fileoutAppender::public logAppender{$/;"	c	class:onhway::fileoutAppender
+logAppender	log.h	/^class stdoutAppender::public logAppender{$/;"	c	class:onhway::stdoutAppender
+logFormatter	log.h	/^class logFormatter{$/;"	c	namespace:onhway
+logger	log.cc	/^logger::logger(const std::string& name = "ROOT")$/;"	f	class:logger
+onhway	log.h	/^namespace onhway{$/;"	n
+ptr	log.h	/^	typedef std::shraed_ptr<logFormatter> ptr;$/;"	t	class:onhway::logFormatter

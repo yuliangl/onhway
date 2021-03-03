@@ -1,0 +1,4 @@
+/home/leon/ontheway/build/CMakeFiles/rebuild_cache.dir
+/home/leon/ontheway/build/CMakeFiles/edit_cache.dir
+/home/leon/ontheway/build/CMakeFiles/onhway.dir
+/home/leon/ontheway/build/CMakeFiles/log.dir
