@@ -38,6 +38,21 @@ logEvent::logEvent(std::shared_ptr<logger> logger, logLevel::level level
     ,m_logger(logger) 
     ,m_level(level) {}
 
+void logEvent::format (const char* fmt, ...){
+    va_list al;
+    va_start(al, fmt);
+    format(fmt, al);
+    va_end(al);
+}
+
+void logEvent::format (const char* fmt, va_list al){
+    char* buf = nullptr;
+    int len = vasprintf(&buf, fmt, al);
+    if( len != -1){
+        m_ss << std::string(buf,len);
+        free(buf);
+    }
+}
 
 logEventWrap::logEventWrap(logEvent::ptr e)
     :m_event(e){
@@ -53,7 +68,7 @@ std::stringstream& logEventWrap::getSS(){
 logger::logger(const std::string& name)
     :m_name(name)
      ,m_level(logLevel::DEBUG){
-    m_formatter.reset(new logFormatter("%d{%Y-%m-%d %H:%M:%S}%T%t%T%N%T%F%T[%p]%T[%c]%T%f:%l%T%m%n"));
+    m_formatter.reset(new logFormatter("%d{%Y-%m-%d %H:%M:%S}%T%t%T%F%T[%p]%T[%c]%T%f:%l%T%m%n"));
 
 }
 void logger::log(logLevel::level level, logEvent::ptr event){
@@ -101,8 +116,9 @@ void logger::fatal(logEvent::ptr event){
 
 
 fileLogAppender::fileLogAppender(const std::string& filename)
-    :m_filename(filename){}
-
+    :m_filename(filename){
+        reopen();
+    }
 
 bool fileLogAppender::reopen(){
     if(m_filestream){
@@ -306,6 +322,9 @@ void logFormatter::init(){
                 }
             }
         }
+        //std::cout<< "str" << i << ": " << str << std::endl; 
+        //std::cout<< "fmt" << i << ": " << fmt <<  std::endl; 
+        //std::cout<< "nstr" << i << ": " <<  nstr <<std::endl; 
 
         if(fmt_status == 0) {
             if(!nstr.empty()) {
@@ -323,6 +342,9 @@ void logFormatter::init(){
 
     if(!nstr.empty()) {
         vec.push_back(std::make_tuple(nstr, "", 0));
+    }
+    for(auto& i : vec ){
+        std::cout << "vec: " << std::get<0>(i) << " , " << std::get<1>(i) << " , " << std::get<2>(i) <<std::endl;
     }
      static std::map<std::string, std::function<formatItem::ptr(const std::string& str)> > s_format_items = {
 #define XX(str, C) \

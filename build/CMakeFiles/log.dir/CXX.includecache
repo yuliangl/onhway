@@ -6,20 +6,6 @@
 
 #IncludeRegexTransform: 
 
-../onhway/util.h
-stdint.h
--
-sys/syscall.h
--
-pthread.h
--
-sys/types.h
--
-stdio.h
--
-unistd.h
--
-
 /home/leon/ontheway/onhway/log.h
 string
 -
@@ -35,8 +21,16 @@ fstream
 -
 vector
 -
-util.h
+stdarg.h
 -
+map
+-
+util.h
+/home/leon/ontheway/onhway/util.h
+singleton.h
+/home/leon/ontheway/onhway/singleton.h
+
+/home/leon/ontheway/onhway/singleton.h
 
 /home/leon/ontheway/onhway/util.h
 stdint.h
@@ -59,4 +53,6 @@ iostream
 /home/leon/ontheway/onhway/log.h
 ../onhway/util.h
 /home/leon/ontheway/onhway/util.h
+../onhway/singleton.h
+/home/leon/ontheway/onhway/singleton.h
 

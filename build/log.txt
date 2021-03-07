@@ -1,0 +1,2 @@
+2021-03-07 06:33:08	4367	0	[DEBUG]	[ROOT]	/home/leon/ontheway/tests/test.cc:17	on the way to hea
+2021-03-07 06:33:08	4367	0	[DEBUG]	[ROOT]	/home/leon/ontheway/tests/test.cc:18	 test fmt  hello fmt
