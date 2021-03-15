@@ -114,6 +114,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named log_config
+
+# Build rule for target.
+log_config: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 log_config
+.PHONY : log_config
+
+# fast build rule for target.
+log_config/fast:
+	$(MAKE) -f CMakeFiles/log_config.dir/build.make CMakeFiles/log_config.dir/build
+.PHONY : log_config/fast
+
+#=============================================================================
 # Target rules for targets named onhway
 
 # Build rule for target.
@@ -138,6 +151,33 @@ log: cmake_check_build_system
 log/fast:
 	$(MAKE) -f CMakeFiles/log.dir/build.make CMakeFiles/log.dir/build
 .PHONY : log/fast
+
+onhway/config.o: onhway/config.cc.o
+
+.PHONY : onhway/config.o
+
+# target to build an object file
+onhway/config.cc.o:
+	$(MAKE) -f CMakeFiles/onhway.dir/build.make CMakeFiles/onhway.dir/onhway/config.cc.o
+.PHONY : onhway/config.cc.o
+
+onhway/config.i: onhway/config.cc.i
+
+.PHONY : onhway/config.i
+
+# target to preprocess a source file
+onhway/config.cc.i:
+	$(MAKE) -f CMakeFiles/onhway.dir/build.make CMakeFiles/onhway.dir/onhway/config.cc.i
+.PHONY : onhway/config.cc.i
+
+onhway/config.s: onhway/config.cc.s
+
+.PHONY : onhway/config.s
+
+# target to generate assembly for a file
+onhway/config.cc.s:
+	$(MAKE) -f CMakeFiles/onhway.dir/build.make CMakeFiles/onhway.dir/onhway/config.cc.s
+.PHONY : onhway/config.cc.s
 
 onhway/log.o: onhway/log.cc.o
 
@@ -220,6 +260,33 @@ tests/test.cc.s:
 	$(MAKE) -f CMakeFiles/log.dir/build.make CMakeFiles/log.dir/tests/test.cc.s
 .PHONY : tests/test.cc.s
 
+tests/test_config.o: tests/test_config.cc.o
+
+.PHONY : tests/test_config.o
+
+# target to build an object file
+tests/test_config.cc.o:
+	$(MAKE) -f CMakeFiles/log_config.dir/build.make CMakeFiles/log_config.dir/tests/test_config.cc.o
+.PHONY : tests/test_config.cc.o
+
+tests/test_config.i: tests/test_config.cc.i
+
+.PHONY : tests/test_config.i
+
+# target to preprocess a source file
+tests/test_config.cc.i:
+	$(MAKE) -f CMakeFiles/log_config.dir/build.make CMakeFiles/log_config.dir/tests/test_config.cc.i
+.PHONY : tests/test_config.cc.i
+
+tests/test_config.s: tests/test_config.cc.s
+
+.PHONY : tests/test_config.s
+
+# target to generate assembly for a file
+tests/test_config.cc.s:
+	$(MAKE) -f CMakeFiles/log_config.dir/build.make CMakeFiles/log_config.dir/tests/test_config.cc.s
+.PHONY : tests/test_config.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -228,8 +295,12 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... log_config"
 	@echo "... onhway"
 	@echo "... log"
+	@echo "... onhway/config.o"
+	@echo "... onhway/config.i"
+	@echo "... onhway/config.s"
 	@echo "... onhway/log.o"
 	@echo "... onhway/log.i"
 	@echo "... onhway/log.s"
@@ -239,6 +310,9 @@ help:
 	@echo "... tests/test.o"
 	@echo "... tests/test.i"
 	@echo "... tests/test.s"
+	@echo "... tests/test_config.o"
+	@echo "... tests/test_config.i"
+	@echo "... tests/test_config.s"
 .PHONY : help
 
 

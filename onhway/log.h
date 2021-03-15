@@ -34,6 +34,8 @@
 #define ONHWAY_LOG_FMT_ERROR(logger, fmt, ...) ONHWAY_LOG_FMT_LEVEL(logger, onhway::logLevel::ERROR, fmt, __VA_ARGS__)
 #define ONHWAY_LOG_FMT_FATAL(logger, fmt, ...) ONHWAY_LOG_FMT_LEVEL(logger, onhway::logLevel::FATAL, fmt, __VA_ARGS__)
 
+#define ONHWAY_LOG_ROOT onhway::loggerMgr::GetInstance()->getRoot()
+
 namespace onhway{
 
 class logger;
@@ -190,6 +192,7 @@ public:
     loggerManager();
     logger::ptr getLogger(const std::string& name);
 
+    logger::ptr getRoot() const {return m_root;}
     void init();
 private:
     std::map<std::string, logger::ptr> m_loggers;

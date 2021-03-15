@@ -4,9 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/leon/ontheway/onhway/config.cc" "/home/leon/ontheway/build/CMakeFiles/onhway.dir/onhway/config.cc.o"
-  "/home/leon/ontheway/onhway/log.cc" "/home/leon/ontheway/build/CMakeFiles/onhway.dir/onhway/log.cc.o"
-  "/home/leon/ontheway/onhway/util.cc" "/home/leon/ontheway/build/CMakeFiles/onhway.dir/onhway/util.cc.o"
+  "/home/leon/ontheway/tests/test_config.cc" "/home/leon/ontheway/build/CMakeFiles/log_config.dir/tests/test_config.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -18,6 +16,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
+  "/home/leon/ontheway/build/CMakeFiles/onhway.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

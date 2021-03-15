@@ -6,5 +6,5 @@ CXX_FLAGS =  -rdynamic -o3 -g -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unse
 
 CXX_DEFINES = -Donhway_EXPORTS
 
-CXX_INCLUDES = -I/home/leon/ontheway/onhway 
+CXX_INCLUDES = -I/home/leon/ontheway/onhway -I/home/leon/apps/yaml-cpp/include 
 

@@ -1,1 +1,1 @@
-/usr/bin/c++   -rdynamic -o3 -g -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unsed-function  -rdynamic CMakeFiles/log.dir/tests/test.cc.o  -o ../bin/log -Wl,-rpath,/home/leon/ontheway/lib ../lib/libonhway.so 
+/usr/bin/c++   -rdynamic -o3 -g -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unsed-function  -rdynamic CMakeFiles/log.dir/tests/test.cc.o  -o ../bin/log -Wl,-rpath,/home/leon/ontheway/lib ../lib/libonhway.so -lyaml-cpp 

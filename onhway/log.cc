@@ -343,9 +343,9 @@ void logFormatter::init(){
     if(!nstr.empty()) {
         vec.push_back(std::make_tuple(nstr, "", 0));
     }
-    for(auto& i : vec ){
-        std::cout << "vec: " << std::get<0>(i) << " , " << std::get<1>(i) << " , " << std::get<2>(i) <<std::endl;
-    }
+    //for(auto& i : vec ){
+    //    std::cout << "vec: " << std::get<0>(i) << " , " << std::get<1>(i) << " , " << std::get<2>(i) <<std::endl;
+    //}
      static std::map<std::string, std::function<formatItem::ptr(const std::string& str)> > s_format_items = {
 #define XX(str, C) \
         {#str, [](const std::string& fmt) { return formatItem::ptr(new C(fmt));}}
@@ -380,6 +380,16 @@ void logFormatter::init(){
         //std::cout << "(" << std::get<0>(i) << ") - (" << std::get<1>(i) << ") - (" << std::get<2>(i) << ")" << std::endl;
     }
 
+}
+
+loggerManager::loggerManager(){
+    m_root.reset(new logger);
+    m_root->addAppender(logAppender::ptr(new stdoutLogAppender));
+}
+
+logger::ptr loggerManager::getLogger(const std::string& name){
+        auto it = m_loggers.find(name);
+        return it == m_loggers.end() ? m_root : it->second;
 }
 
 }
