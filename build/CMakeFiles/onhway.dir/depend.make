@@ -43,6 +43,12 @@ CMakeFiles/onhway.dir/onhway/log.cc.o: ../onhway/log.h
 CMakeFiles/onhway.dir/onhway/log.cc.o: ../onhway/singleton.h
 CMakeFiles/onhway.dir/onhway/log.cc.o: ../onhway/util.h
 
+CMakeFiles/onhway.dir/onhway/thread.cc.o: ../onhway/thread.h
+CMakeFiles/onhway.dir/onhway/thread.cc.o: ../onhway/log.h
+CMakeFiles/onhway.dir/onhway/thread.cc.o: ../onhway/singleton.h
+CMakeFiles/onhway.dir/onhway/thread.cc.o: ../onhway/thread.cc
+CMakeFiles/onhway.dir/onhway/thread.cc.o: ../onhway/util.h
+
 CMakeFiles/onhway.dir/onhway/util.cc.o: ../onhway/util.h
 CMakeFiles/onhway.dir/onhway/util.cc.o: ../onhway/util.cc
 

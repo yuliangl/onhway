@@ -206,6 +206,33 @@ onhway/log.cc.s:
 	$(MAKE) -f CMakeFiles/onhway.dir/build.make CMakeFiles/onhway.dir/onhway/log.cc.s
 .PHONY : onhway/log.cc.s
 
+onhway/thread.o: onhway/thread.cc.o
+
+.PHONY : onhway/thread.o
+
+# target to build an object file
+onhway/thread.cc.o:
+	$(MAKE) -f CMakeFiles/onhway.dir/build.make CMakeFiles/onhway.dir/onhway/thread.cc.o
+.PHONY : onhway/thread.cc.o
+
+onhway/thread.i: onhway/thread.cc.i
+
+.PHONY : onhway/thread.i
+
+# target to preprocess a source file
+onhway/thread.cc.i:
+	$(MAKE) -f CMakeFiles/onhway.dir/build.make CMakeFiles/onhway.dir/onhway/thread.cc.i
+.PHONY : onhway/thread.cc.i
+
+onhway/thread.s: onhway/thread.cc.s
+
+.PHONY : onhway/thread.s
+
+# target to generate assembly for a file
+onhway/thread.cc.s:
+	$(MAKE) -f CMakeFiles/onhway.dir/build.make CMakeFiles/onhway.dir/onhway/thread.cc.s
+.PHONY : onhway/thread.cc.s
+
 onhway/util.o: onhway/util.cc.o
 
 .PHONY : onhway/util.o
@@ -304,6 +331,9 @@ help:
 	@echo "... onhway/log.o"
 	@echo "... onhway/log.i"
 	@echo "... onhway/log.s"
+	@echo "... onhway/thread.o"
+	@echo "... onhway/thread.i"
+	@echo "... onhway/thread.s"
 	@echo "... onhway/util.o"
 	@echo "... onhway/util.i"
 	@echo "... onhway/util.s"

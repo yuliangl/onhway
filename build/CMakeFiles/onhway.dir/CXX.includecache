@@ -6,6 +6,14 @@
 
 #IncludeRegexTransform: 
 
+../onhway/thread.h
+memory
+-
+functional
+-
+pthread.h
+-
+
 ../onhway/util.h
 stdint.h
 -
@@ -441,6 +449,14 @@ singleton.h
 /home/leon/ontheway/onhway/singleton.h
 
 /home/leon/ontheway/onhway/singleton.h
+
+/home/leon/ontheway/onhway/thread.cc
+thread.h
+-
+log.h
+/home/leon/ontheway/onhway/log.h
+util.h
+/home/leon/ontheway/onhway/util.h
 
 /home/leon/ontheway/onhway/util.cc
 util.h

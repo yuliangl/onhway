@@ -79,7 +79,7 @@ all: CMakeFiles/log_config.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/log_config.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/ontheway/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/ontheway/build/CMakeFiles 7
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/log_config.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/ontheway/build/CMakeFiles 0
 .PHONY : CMakeFiles/log_config.dir/rule
@@ -106,7 +106,7 @@ clean: CMakeFiles/log_config.dir/clean
 CMakeFiles/onhway.dir/all:
 	$(MAKE) -f CMakeFiles/onhway.dir/build.make CMakeFiles/onhway.dir/depend
 	$(MAKE) -f CMakeFiles/onhway.dir/build.make CMakeFiles/onhway.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/ontheway/build/CMakeFiles --progress-num=5,6,7,8 "Built target onhway"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/ontheway/build/CMakeFiles --progress-num=5,6,7,8,9 "Built target onhway"
 .PHONY : CMakeFiles/onhway.dir/all
 
 # Include target in all.
@@ -116,7 +116,7 @@ all: CMakeFiles/onhway.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/onhway.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/ontheway/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/ontheway/build/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/onhway.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/ontheway/build/CMakeFiles 0
 .PHONY : CMakeFiles/onhway.dir/rule
@@ -153,7 +153,7 @@ all: CMakeFiles/log.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/log.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/ontheway/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/ontheway/build/CMakeFiles 7
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/log.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/ontheway/build/CMakeFiles 0
 .PHONY : CMakeFiles/log.dir/rule

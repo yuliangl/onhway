@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/leon/ontheway/onhway/config.cc" "/home/leon/ontheway/build/CMakeFiles/onhway.dir/onhway/config.cc.o"
   "/home/leon/ontheway/onhway/log.cc" "/home/leon/ontheway/build/CMakeFiles/onhway.dir/onhway/log.cc.o"
+  "/home/leon/ontheway/onhway/thread.cc" "/home/leon/ontheway/build/CMakeFiles/onhway.dir/onhway/thread.cc.o"
   "/home/leon/ontheway/onhway/util.cc" "/home/leon/ontheway/build/CMakeFiles/onhway.dir/onhway/util.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

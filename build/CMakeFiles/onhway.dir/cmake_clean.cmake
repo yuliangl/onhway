@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/onhway.dir/onhway/log.cc.o"
   "CMakeFiles/onhway.dir/onhway/util.cc.o"
   "CMakeFiles/onhway.dir/onhway/config.cc.o"
+  "CMakeFiles/onhway.dir/onhway/thread.cc.o"
   "../lib/libonhway.pdb"
   "../lib/libonhway.so"
 )

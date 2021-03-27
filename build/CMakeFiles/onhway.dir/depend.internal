@@ -43,6 +43,12 @@ CMakeFiles/onhway.dir/onhway/log.cc.o
  /home/leon/ontheway/onhway/log.h
  /home/leon/ontheway/onhway/singleton.h
  /home/leon/ontheway/onhway/util.h
+CMakeFiles/onhway.dir/onhway/thread.cc.o
+ ../onhway/thread.h
+ /home/leon/ontheway/onhway/log.h
+ /home/leon/ontheway/onhway/singleton.h
+ /home/leon/ontheway/onhway/thread.cc
+ /home/leon/ontheway/onhway/util.h
 CMakeFiles/onhway.dir/onhway/util.cc.o
  ../onhway/util.h
  /home/leon/ontheway/onhway/util.cc
