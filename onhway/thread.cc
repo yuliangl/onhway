@@ -22,8 +22,9 @@ std::string& Thread::GetName(){
 }
 
 
-Thread::Thread(std::function<void()> call_back, const std::string& name_ = "UNKNOW")
-            :m_name(name_){
+Thread::Thread(std::function<void()> call_back, const std::string& name_ )
+        :m_name(name_)
+        ,m_callBack(call_back){
     if(name_.empty()){
         m_name = "UNKNOW";
     }
@@ -57,6 +58,7 @@ void* Thread::run(void* arg){
     Thread* thread = (Thread*)arg;
     t_thread = thread;
     thread->m_id = GetThreadId();
+    t_thread_name = thread->m_name;
     pthread_setname_np(pthread_self(), thread->m_name.substr(0, 15).c_str());
 
     std::function<void()> callBack;

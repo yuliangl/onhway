@@ -27,5 +27,9 @@ add_executable(log_config tests/test_config.cc)
 add_dependencies(log_config onhway)
 target_link_libraries(log_config onhway yaml-cpp pthread)
 
+add_executable(test_thread tests/test_thread.cc)
+add_dependencies(test_thread onhway)
+target_link_libraries(test_thread onhway yaml-cpp pthread)
+
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
