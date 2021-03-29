@@ -4,9 +4,162 @@
 #include <memory>
 #include <functional>
 #include <pthread.h>
+#include <semaphore.h>
 
 
 namespace onhway {
+
+class Semaphore {
+public:
+    Semaphore(uint32_t count = 0);
+    ~Semaphore();
+
+    void wait();
+    void notify();
+private:
+    Semaphore(const Semaphore&) = delete;
+    Semaphore(const Semaphore&&) = delete;
+    Semaphore& operator=(const Semaphore&) = delete;
+private:
+    sem_t m_semaphore;
+
+};
+
+template<class T>
+struct ScopeLockImpl {
+public:
+    ScopeLockImpl(T& mutex_)
+        :m_mutex(mutex_){
+            lock();
+          //m_locked = true;
+        }
+    ~ScopeLockImpl(){
+        unlock();
+    }
+
+    void lock(){
+        if(!m_locked){
+            m_mutex.lock();
+            m_locked = true;
+        }
+    }
+
+    void unlock(){
+        if(m_locked){
+            m_mutex.unlock();
+            m_locked = false;
+        }
+    }
+private:
+    T& m_mutex;
+    bool m_locked = false;
+};
+
+template<class T>
+struct ReadScopeLockImpl {
+public:
+    ReadScopeLockImpl(T& mutex_)
+        :m_mutex(mutex_){
+            rdlock();
+          //m_locked = true;
+        }
+    ~ReadScopeLockImpl(){
+        unlock();
+    }
+
+    void rdlock(){
+        if(!m_locked){
+            m_mutex.rdlock();
+            m_locked = true;
+        }
+    }
+
+    void unlock(){
+        if(m_locked){
+            m_mutex.unlock();
+            m_locked = false;
+        }
+    }
+private:
+    T& m_mutex;
+    bool m_locked = false;
+};
+
+template<class T>
+struct WriteScopeLockImpl {
+public:
+    WriteScopeLockImpl(T& mutex_)
+        :m_mutex(mutex_){
+            wrlock();
+            //m_locked = true;
+        }
+    ~WriteScopeLockImpl(){
+        unlock();
+    }
+
+    void wrlock(){
+        if(!m_locked){
+            m_mutex.wrlock();
+            m_locked = true;
+        }
+    }
+
+    void unlock(){
+        if(m_locked){
+            m_mutex.unlock();
+            m_locked = false;
+        }
+    }
+private:
+    T& m_mutex;
+    bool m_locked = false;
+};
+
+class Mutex {
+public:
+    typedef ScopeLockImpl<Mutex> mutexlock;
+    Mutex(){
+        pthread_mutex_init(&m_mutex, nullptr);
+    }
+    ~Mutex(){
+        pthread_mutex_destroy(&m_mutex);
+    }
+
+    void lock() {
+        pthread_mutex_lock(&m_mutex);
+    }
+
+    void unlock() {
+        pthread_mutex_unlock(&m_mutex);
+    }
+private:
+    pthread_mutex_t m_mutex;
+};
+
+class RWMutex {
+public:
+    typedef ReadScopeLockImpl<RWMutex> readlock;
+    typedef WriteScopeLockImpl<RWMutex> writelock;
+
+    RWMutex(){
+        pthread_rwlock_init(&m_lock, nullptr);
+    }
+    ~RWMutex(){
+        pthread_rwlock_destroy(&m_lock);
+    }
+
+    void rdlock(){
+        pthread_rwlock_rdlock(&m_lock);
+    }
+    void wrlock(){
+        pthread_rwlock_wrlock(&m_lock);
+    }
+    void unlock(){
+        pthread_rwlock_unlock(&m_lock);
+    }
+private:
+    pthread_rwlock_t m_lock;
+};
 
 class Thread {
 public:
@@ -33,6 +186,7 @@ private:
     pthread_t m_thread = 0;
     std::string m_name;
     std::function<void()> m_callBack;
+    Semaphore m_semaphore;
 };
 
 
