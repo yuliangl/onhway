@@ -35,10 +35,12 @@
 #define ONHWAY_LOG_FMT_FATAL(logger, fmt, ...) ONHWAY_LOG_FMT_LEVEL(logger, onhway::logLevel::FATAL, fmt, __VA_ARGS__)
 
 #define ONHWAY_LOG_ROOT onhway::loggerMgr::GetInstance()->getRoot()
+#define ONHWAY_LOG_NAME(name) onhwy::loggerMgr::GetInstance()->getLogger(name)
 
 namespace onhway{
 
 class logger;
+class loggerManager
 
 class logLevel{
 public:
@@ -53,6 +55,7 @@ public:
 		
 	};
     static const char* toString(logLevel::level);
+    static logLevel::level fromString(const std::string& str);
 };
 
 class logEvent{
@@ -122,6 +125,7 @@ private:
 };
 
 class logAppender {
+friend class logger;
 public:
 	typedef std::shared_ptr<logAppender> ptr;
 //	virtual ~logAppender();
@@ -138,6 +142,7 @@ protected:
 };
 
 class logger: public std::enable_shared_from_this<logger>{
+friend class loggerManager;
 public:
     typedef std::shared_ptr<logger> ptr;
     logger(const std::string& name = "ROOT");
@@ -151,17 +156,24 @@ public:
 
     void addAppender(logAppender::ptr appender);
     void delAppender(logAppender::ptr appender);
+    void clearAppenders();
     logLevel::level  getLevel() const {return m_level;}
     void setLevel(logLevel::level val) {m_level = val;}
 
     const std::string& getName() const {return m_name;}
     logEvent::ptr getEvent() const {return m_event;}
+
+    void setFormatter(logFormatter::ptr val);
+    void setFormatter(const std::string& val);
+    logFormatter::ptr getFormatter();
+    std::string toYamlString();
 private:
     std::string m_name;
     logLevel::level m_level;
     std::list<logAppender::ptr> m_appenders;
     logFormatter::ptr m_formatter;
     logEvent::ptr m_event;
+    logger::ptr m_root;
 
 };
 
@@ -194,6 +206,7 @@ public:
 
     logger::ptr getRoot() const {return m_root;}
     void init();
+    std::string toYamlString();
 private:
     std::map<std::string, logger::ptr> m_loggers;
     logger::ptr m_root;

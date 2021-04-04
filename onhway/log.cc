@@ -1,9 +1,11 @@
 #include "log.h"
+//#include "config.h"
 #include <map>
 #include <iostream>
 #include <functional>
 #include <time.h>
 #include <string.h>
+#include <iostream>
 
 namespace onhway{
 
@@ -26,6 +28,27 @@ const char* logLevel::toString(logLevel::level level){
     }
     return "UNKNOW";
 }
+
+logLevel::level logLevel::fromString(const std::string& str) {
+#define xx(level, v) \
+    if(str = #v) { \
+        return logLevel::level; \ 
+    }
+    XX(DEBUG, debug);
+    XX(INFO, info);
+    XX(WARN, warn);
+    XX(ERROR, error);
+    XX(FATAL, fatal);
+ 
+    XX(DEBUG, DEBUG);
+    XX(INFO, INFO);
+    XX(WARN, WARN);
+    XX(ERROR, ERROR);
+    XX(FATAL, FATAL);
+    return logLevel::UNKNOW;
+#undef xx
+}
+
 logEvent::logEvent(std::shared_ptr<logger> logger, logLevel::level level
         , const char* file, int32_t line, uint32_t elapse 
         ,uint32_t thread_id, uint32_t fiber_id, uint64_t time)
@@ -71,6 +94,7 @@ logger::logger(const std::string& name)
     m_formatter.reset(new logFormatter("%d{%Y-%m-%d %H:%M:%S}%T%t%T%F%T[%p]%T[%c]%T%f:%l%T%m%n"));
 
 }
+
 void logger::log(logLevel::level level, logEvent::ptr event){
     if(level >= m_level){
         auto self = shared_from_this();
@@ -79,6 +103,7 @@ void logger::log(logLevel::level level, logEvent::ptr event){
     }
     }
 }
+
 void logger::addAppender(logAppender::ptr appender){
     if(!appender->getFormatter()){
         appender->setFormatter(m_formatter);
@@ -86,6 +111,7 @@ void logger::addAppender(logAppender::ptr appender){
     m_appenders.push_back(appender);
 
 }
+
 void logger::delAppender(logAppender::ptr appender){
     for(auto it = m_appenders.begin();
             it != m_appenders.end(); it++){
@@ -95,6 +121,38 @@ void logger::delAppender(logAppender::ptr appender){
         }
 
     }
+}
+
+void logger::clearAppenders() {
+    m_appenders.clear();
+}
+
+
+void logger::setFormatter(logFormatter::ptr val) {
+    m_formatter = val;
+
+    for(auto& i : m_appenders) {
+        if(!i->m_hasFormatter) {
+            i->m_formatter = m_formatter;
+        }
+    }
+}
+void logger::setFormatter(const std::string& val) {
+    onhway::logFormatter::ptr new_val(new onhway::logFormatter(val));
+    if(new_val->isError()) {
+        std::cout << "logger setFormatter name =" << m_name
+                  << "value= " << val << "invalid formatter"
+                  << std::endl;
+    }
+    setFormatter(new_val);
+}
+logFormatter::ptr logger::getFormatter() {
+    return m_formatter;
+}
+std::string logger::toYamlString() {
+    YAML::Node node;
+    node["name"] = m_name;
+
 }
 void logger::info(logEvent::ptr event){
     log(logLevel::INFO, event);
@@ -385,12 +443,150 @@ void logFormatter::init(){
 loggerManager::loggerManager(){
     m_root.reset(new logger);
     m_root->addAppender(logAppender::ptr(new stdoutLogAppender));
+
+    m_loggers[m_root->m_name] = m_root;
 }
 
 logger::ptr loggerManager::getLogger(const std::string& name){
         auto it = m_loggers.find(name);
-        return it == m_loggers.end() ? m_root : it->second;
+        if(it != m_loggers.end()){
+            return it->second;
+        }
+
+        logger::Ptr loggerO(new logger(name));
+        loggerO->m_root = m_root;
+        m_loggers[name] = loggerO;
+        return loggerO;
 }
+
+struct logAppenderDefine {
+    int type = 0;
+    logLevel::level level = 0;
+    std::string formatter;
+    std::string file;
+
+    bool operator==(const logAppenderDefine& oth) const {
+        return type == oth.type
+            && level == oth.level
+            && formatter == oth.formatter
+            && file == oth.file;
+    }
+};
+struct logDefine {
+    std::string name;
+    logLevel::level level = 0;
+    std::string formatter;
+    std::vector<logAppenderDefine> appenders;
+
+    bool operator==(const logDefine& oth) const {
+        return name == oth.name
+            && level == oth.level
+            && formatter == oth.formatter
+            && appenders == oth.appenders;
+    }
+
+    bool operator<(const logDefine& oth) const {
+        return name < oth.name;
+    }
+
+    bool isValid() const {
+        return !name.empty();
+    }
+
+};
+
+onhway::ConfigVar<std::set<logDefine> >::ptr g_log_defines = 
+    onhway::Config::LookUp("logs", std::set<logDefine>(), "logs config");
+struct logIniter {
+    logIniter() {
+        g_log_defines->addListener([](const std::set<logDefine>& old_value,
+                    const std::set<logDefinr>& new_value) {
+            ONHWAY_LOG_INFO(ONHWAY_LOG_ROOT) << "on_logger_conf_changed";
+            for(auto& i : new_value) {
+                auto it = old_value.find(i);
+                onhway::logger::ptr loggerO;
+                if(it == old_value.end()){
+                    loggerO = ONHWAY_LOG_NAME(i.name); // add new logger
+                } else {
+                    if(!(i == *it)) {
+                        loggerO = ONHWAY_LOG_NAME(i.name); // mod logger
+                    } else {
+                        continue;
+                    }
+                }
+                logger.setLevel(i.level);
+                if(!i.formatter.empty()) {
+                    loggerO->setFormatter(i.formatter);
+                }
+
+                loggerO->clearAppenders();
+                for(ato& a : i.appenders) {
+                    onhway::logAppender::ptr ap;
+                    if(a.type == 1){
+                        ap.reset(new fileLogAppender(a.file));
+                    } else if{a.type == 2) {
+                        ap.reset(new stdoutLogAppender);
+                    }
+                    ap.setLevel(a.level);
+                    loggerO->addAppender(ap);
+                }
+            }
+            for(auto& i : old_value) {
+                auto it = new_value.find(i);
+                if(it == new_value.end()) {
+                    auto loggerO = ONHWAY_LOG_NAME(i.name); // delete logger 
+                    loggerO->setLevel((logLevel::level)0);
+                    loggerO->clearAppenders();
+    
+                }
+            }
+
+        }
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 

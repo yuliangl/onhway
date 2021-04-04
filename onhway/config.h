@@ -243,6 +243,7 @@ class ConfigVar :public ConfigVarBase {
 public:
     typedef std::shared_ptr<ConfigVar> ptr;
     typedef std::function<void(const T& old_value, const T& new_vulue)> onChangeCb;
+
     ConfigVar(const std::string& name_ 
             ,const T& default_value 
             ,const std::string& description_)
