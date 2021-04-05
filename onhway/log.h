@@ -35,12 +35,12 @@
 #define ONHWAY_LOG_FMT_FATAL(logger, fmt, ...) ONHWAY_LOG_FMT_LEVEL(logger, onhway::logLevel::FATAL, fmt, __VA_ARGS__)
 
 #define ONHWAY_LOG_ROOT onhway::loggerMgr::GetInstance()->getRoot()
-#define ONHWAY_LOG_NAME(name) onhwy::loggerMgr::GetInstance()->getLogger(name)
+#define ONHWAY_LOG_NAME(name) onhway::loggerMgr::GetInstance()->getLogger(name)
 
 namespace onhway{
 
 class logger;
-class loggerManager
+class loggerManager;
 
 class logLevel{
 public:
@@ -116,6 +116,7 @@ public:
     };
     void init();
     std::string getPattern() const {return m_pattern;}
+    bool isError() const {return m_error;}
 
 private:
     std::string m_pattern;
@@ -130,13 +131,15 @@ public:
 	typedef std::shared_ptr<logAppender> ptr;
 //	virtual ~logAppender();
     virtual void log(std::shared_ptr<logger>  logger, logLevel::level level, logEvent::ptr event) = 0;
+    virtual std::string toYamlString() = 0;
 
     void setFormatter(logFormatter::ptr val) {m_formatter = val;}
     logFormatter::ptr getFormatter() const {return m_formatter;}
     logLevel::level getLevel() const {return m_level;}
     void setLevel(logLevel::level level) {m_level = level;}
 protected:
-	logLevel::level m_level;
+	logLevel::level m_level = logLevel::DEBUG;
+    bool m_hasFormatter;
     logFormatter::ptr m_formatter;
 
 };
@@ -182,6 +185,8 @@ class stdoutLogAppender:public logAppender{
 public:
     typedef std::shared_ptr<stdoutLogAppender> ptr;
     void log(logger::ptr logger,logLevel::level level, logEvent::ptr event) override;
+
+    std::string toYamlString() override;
 private:
 	
 };
@@ -191,6 +196,9 @@ public:
     typedef std::shared_ptr<fileLogAppender> ptr;
     fileLogAppender(const std::string& filename);
     void log(logger::ptr logger,logLevel::level level, logEvent::ptr event) override;
+
+    std::string toYamlString() override;
+
     bool reopen();
     
 private:
