@@ -117,7 +117,7 @@ private:
 
 class Mutex {
 public:
-    typedef ScopeLockImpl<Mutex> mutexlock;
+    typedef ScopeLockImpl<Mutex> Lock;
     Mutex(){
         pthread_mutex_init(&m_mutex, nullptr);
     }
@@ -159,6 +159,26 @@ public:
     }
 private:
     pthread_rwlock_t m_lock;
+};
+
+class SpinLock {
+public:
+    typedef ScopeLockImpl<SpinLock> Lock;
+    SpinLock(){
+        pthread_spin_init(&m_mutex, 0);
+    }
+    ~SpinLock(){
+        pthread_spin_destroy(&m_mutex);
+    }
+
+    void lock(){
+        pthread_spin_lock(&m_mutex);
+    }
+    void unlock(){
+        pthread_spin_unlock(&m_mutex);
+    }
+private:
+    pthread_spinlock_t m_mutex;
 };
 
 class Thread {
