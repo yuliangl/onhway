@@ -31,7 +31,7 @@ public:
 
     static void YieldToHold();
     static void YieldToReady();
-    static void TotalFibers();
+    static uint64_t TotalFibers();
     static Fiber::ptr GetThis();
     static void SetThis(Fiber* f);
     static void MainFunc();
