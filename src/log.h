@@ -3,9 +3,10 @@
 
 #include <iostream>
 #include <ostream>
-#include <stringstream>
+#include <sstream>
 #include <memory>
 #include <vector>
+#include <string>
 #include <list>
 
 
@@ -20,40 +21,42 @@ enum logLevel{
     FATAL
 };
 
-str::string toString(logLevel level){
+#if 0
+std::string toString(logLevel level){
     switch(level) {
 #define XX(name) \
         case name: \
-            return #name;
+            return #name;\
             break;
 
         XX(DEBUG);
         XX(INFO);
         XX(WARNING);
         XX(ERROR);
-        XX(FATALO);
+        XX(FATAL);
 
 #undef XX 
         default:
             return "UNKONW";
     }
 }
+#endif
 
 class LogEvent{
 public:
     typedef std::shared_ptr<LogEvent> ptr;
-    LogEvent();
+    //LogEvent();
     LogEvent(uint64_t time, const std::string& fileName, uint32_t line, const std::string& threadName, 
             uint32_t threadId, uint32_t fiberId);
     ~LogEvent();
 
     uint64_t getTime()          const {return m_time;}
-    std::string getFileName()   const {return m_time;}
+    std::string getFileName()   const {return m_fileName;}
     uint32_t getLine()          const {return m_line;}
     std::string getThreadName() const {return m_threadName;}
     uint32_t getThreadId()      const {return m_threadId;}
     uint32_t getFiberId()       const {return m_fiberId;}
-    std::stringstream getSs() {return m_ss;}
+    //std::stringstream getSs() {return m_ss;}
 private:
     uint64_t m_time = 0;
     std::string m_fileName = "log.txt";
@@ -70,7 +73,7 @@ public:
     LogFormat();
     ~LogFormat();
 
-    virtual void formatLogs(std::ostream& os, logLevel level, LogEvent::ptr event);
+    virtual void formatLog(std::ostream& os, logLevel level, LogEvent::ptr event);
 private:
     std::stringstream m_ss;
 };
@@ -78,7 +81,8 @@ private:
 class LevelFormatItem : public LogFormat {
 public:
     void formatLog(std::ostream& os, logLevel level, LogEvent::ptr event) override{
-        os << toString(level); // have not imp yet
+       // os << toString(level); // have not imp yet
+        std::cout << level << std::endl;
     }
 
 };
@@ -94,7 +98,7 @@ public:
 class TimeFormatItem : public LogFormat {
 public:
     void formatLog(std::ostream& os, logLevel level, LogEvent::ptr event) override{
-        os << getTime();
+        os << event->getTime();
     }
 
 };
@@ -151,7 +155,7 @@ public:
     typedef std::shared_ptr<LogAppender> ptr;
     LogAppender();
     virtual ~LogAppender();
-    virtual void log(logLevel level, std::vector<LogFormat::ptr>& vec_format);
+    virtual void log(logLevel level, LogEvent::ptr logEvent, std::vector<LogFormat::ptr>& vec_format);
 };
 
 class StdoutAppender : public LogAppender {
@@ -160,7 +164,7 @@ public:
     StdoutAppender();
     ~StdoutAppender();
 
-    void log(logLevel level, std::vector<LogFormat::ptr>& vec_format) override;
+    void log(logLevel level, LogEvent::ptr logEvent, std::vector<LogFormat::ptr>& vec_format) override;
 };
 
 class FileAppender : public LogAppender {
@@ -169,19 +173,19 @@ public:
     FileAppender();
     ~FileAppender();
 
-    void log(logLevel level, std::vector<LogFormat::ptr>& vec_format) override;
+    void log(logLevel level, LogEvent::ptr logEvent, std::vector<LogFormat::ptr>& vec_format) override;
 
 };
 
 class Logger {
 public:
-    typedef std::shared_ptr<Logger> Ptr;
-    Logger(const std::string& name, logLevel level, const std::string& pattern,LogEvent::pre logEvent);
+    typedef std::shared_ptr<Logger> ptr;
+    Logger(const std::string& name, logLevel level, const std::string& pattern, LogEvent::ptr logEvent);
     ~Logger();
 
     void log(logLevel level);
     void addAppender(LogAppender::ptr appender);
-    void addFormat(LogEvent::ptr logEvent);
+    void addFormat(LogFormat::ptr logFormat);
     void initLog();
     
 private:
@@ -197,3 +201,5 @@ private:
 
 
 }
+
+#endif
